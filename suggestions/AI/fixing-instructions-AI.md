@@ -1,8 +1,21 @@
-# Suggestions for fixing some errors and warnings
+# Actions ane explanations for fixing some errors and warnings
 
-This file provides suggestions for fixing certain Vale errors and warnings, in addition to the general explanations in ../README.md
+This file provides AI actions and explanations for fixing certain Vale issues (errors and warnings), in addition to the general explanations in [README.md](README.md). This file is intended to AI assistants.
+
+For every issue, you must provide the user with an explanation and a suggested fix. Your primary goal is to follow the **AI Action plan** listed under each issue type. Use the corresponding **Detail** section and its examples to understand the nuance of the task, to generate the user-facing explanation, and to correctly format your code suggestions.
+
+If the **AI Action plan** includes the keyword **Group**, you should list all issues of that type together under a single heading. Otherwise, list every issue separately unless a single fix resolves multiple, adjacent issues.
+
+When a particular issue is not listed in this file, use the [README.md](README.md) file and your general knowledge to work out the best possible explanation and fix.
 
 ## EntityReference
+
+**AI action plan**
+**Group**
+* If there are few (5 or less) unsupported entity references, replace them with AsciiDoc attributes to the best of your knowledge
+* In all cases display an explanation to the user, importantly including the links provided
+
+**Detail**
 
 Replace the unsupported entity reference(s) with a [built-in AsciiDoc attributes](https://docs.asciidoctor.org/asciidoc/latest/attributes/character-replacement-ref/) or, when possible, just normal characters (such as `&` or `<`).
 
@@ -10,11 +23,25 @@ If your files have many unsupported entity references, consider using the [Ascii
 
 ## ExampleBlock
 
-Example blocks in thee main body can usually be converted to normal text or, when they represent code or commands, to code blocks. If the preceding text does not make it clear that an example comes next, modify the preceding text to explain it, for example, by adding `See the following example:`
+**AI action plan**
+* Analyse the example block and convert to normal text or a code block as apropriate
+* If the preceding text does not mention an example, add a part such as "as in the following example". as appropriate, maintaining text flow
+* If the example block title contains information absent in the preceding text, add this information to the text, maintaining text flow
+
+**Detail**
+
+Example blocks in the main body can usually be converted to normal text or, when they represent code or commands, to code blocks. If the preceding text does not make it clear that an example comes next, modify the preceding text to explain it, for example, by adding `See the following example:`
 
 Note that block titles in example blocks must also be removed. Often, the block title is reduntant (such as `Example of` following by a restatement of the previous paragraph). If the block title contains additional relevant information, add this information into the preceding text.
 
 ## NestedSection
+
+**AI action plan**
+* Determine if the file is an assembly. A `:_mod-docs-content-type: assembly` definition means the file is an assembly. If no `_mod-docs-content-type` attribute is defined, the file is likely an assembly if it has "assembly" in its name and/or if it has several `include:` directives that include a `[leveloffset=...]` setting.
+* If the file IS an assembly, check if the `:_mod-docs-content-type: assembly` definitionis in the file, if it is not, recommend adding it. No other change to an assembly is required for this issue.
+* If the file IS NOT an assembly, recommend splitting subsections into separate modules.
+
+**Detail**
 
 If the AsciiDoc file is an assembly, this limitation does not apply. An assembly file often, but not always, has `assembly` in its name. To comply with the templates, it must have a `:_mod-docs-content-type: assembly` attribute definition at the start of the file. If the `NestedSection` error is reported for an assembly, ensure that the `:_mod-docs-content-type: assembly` attribute definition is present.
 
@@ -22,21 +49,33 @@ AsciiDoc files which are not assemblies are normally modules. If a module contai
 
 Do not add any `include` statements to modules. Instead, add the new modules to the assembly file in which the existing module is included. If you are an AI advisint the breakup of the modules, provide a snippet that the user will paste into the assembly.
 
-When breaking a module into several modules, ensure that every module has the correct content type and complies with the template for this content type.
+When breaking a module into several modules, ensure that every module has the correct content type and complies with the template for this content type. For more information, see the `content-types.md` file.
 
 ## TaskSection
 
+**AI action plan**
+* Determine if the subheading should have been a block title, using the list of supported block titles for procedures. If this is true, suggest changing to block title.
+* Otherwise, suggest splitting the subsections into separate modules.
+
+**Detail**
+
 In a task topic (content type `procedure`) no subsections nor subheadings are allowed.
 
-Sometimes, they result from a formatting error when a subheading (for example, `== Procedure`) appears instead of a block title (`.Procedure`). This can happen only for block titles listed as supported in the [template for procedures](https://raw.githubusercontent.com/redhat-documentation/modular-docs/refs/heads/main/modular-docs-manual/files/TEMPLATE_PROCEDURE_doing-one-procedure.adoc) (however, also check for typos in the section names, for example, `== Proedure` should still be replaced with `.Procedure`).
+Sometimes, they result from a formatting error when a subheading (for example, `== Procedure`) appears instead of a block title (`.Procedure`). This can happen only for block titles listed as supported in the [template for procedures](TEMPLATE_PROCEDURE_doing-one-procedure.adoc) (however, also check for typos in the section names, for example, `== Proedure` should still be replaced with `.Procedure`).
 
 In all other cases, split the subsections off into separate modules.
 
 Do not add any `include` statements to modules. Instead, add the new modules to the assembly file in which the existing module is included. If you are an AI advisint the breakup of the modules, provide a snippet that the user will paste into the assembly.
 
-When breaking a module into several modules, ensure that every module has the correct content type and complies with the template for this content type.  Subsections of a procedure module are often _but not always_ procedures.
+When breaking a module into several modules, ensure that every module has the correct content type and complies with the template for this content type. For more information, see the `content-types.md` file. Subsections of a procedure module are often _but not always_ procedures.
 
 ## AdmonitionTitle
+
+**AI action plan**
+* Determine if the admonition title can be removed without affecting the information in the document. If so, suggest removing it.
+* Otherwise, suggest a version of the admonition without the title but with the same informatrion worked into the admonition itself.
+
+**Detail**
 
 Sometimes, an admonition title can be removed without affecting document usability, as in the following example:
 
@@ -87,18 +126,31 @@ Take the following steps to care for floppy disks:
 
 ## BlockTitle
 
+**AI action plan**
+
+Determine if the module is a procedure. A procedure has a `:_mod-docs-content-type: procedure` definition close to the start of the file.
+
+Then work through several possibilities:
+
+* If several block titles in succession represent a list, change to an unordered list or description list.
+* If the block title is one of the supported block titles for procedures, but the module is not a procedure, analyze the entire module and suggest either converting the module to a procedure or splitting the procedure part into another module.
+* If the module is not a procedure and the block title is where a subheading should logically be: if this would be a second level subheading (`==`), suggest converting the block title to a subheading. Otherwise, suggest splitting the module.
+* If the module is a procedure and the block title is where a subheading should logically be: suggest splitting the module.
+* If the block title is used as the heading to a block, typically a code block, reword the heading to add it into the normal text preceding the block, preserving text flow
+
+**Detail**
+
 Block titles (`.Block title` in AsciiDoc) are widely used (and abused) for many different cases in existing documentation. Carefully review the context of the block title (sometimes a considerable number of lines before and after it) to work out its meaning, and then adjust the text to represent the meaning without a block title.
 
 There are several typical situations. If none of the situations fit, work out other ways of representing the content.
 
-
-**While you can replicate a block title by using a paragraph in bold, this is NOT a recommended solution, as it creates nonstandard presentation.**
+**While one can replicate a block title by using a paragraph in bold, this is NOT a recommended solution, as it creates nonstandard presentation.**
 
 ### Unordered list or description list
 
 Sometimes several block titles in succession represent several options. In this case, use either an [unordered list](https://docs.asciidoctor.org/asciidoc/latest/lists/unordered/) or, if the entries are short, a [description list](https://docs.asciidoctor.org/asciidoc/latest/lists/description/). Do not use bold formatting (`*bold*`) to replicate the "visual effect" of the block titles, because bold formatting is normally used for UI elements.
 
-Example fail:
+Failure:
 
 ```
 To resolve this error, use one of the following workarounds based on your {PlatformName} version:
@@ -137,21 +189,21 @@ extra_settings:
 
 ### Procedure element
 
-A concept or reference module might contain block titles supported for procedure elements according to the [template for procedures](https://raw.githubusercontent.com/redhat-documentation/modular-docs/refs/heads/main/modular-docs-manual/files/TEMPLATE_PROCEDURE_doing-one-procedure.adoc)
+A concept or reference module might contain block titles supported for procedure elements according to the [template for procedures](TEMPLATE_PROCEDURE_doing-one-procedure.adoc)
 
 In this case, consider if the module should be converted to a procedure or, alternatively, a procedure subsection should be split off into a separate module. If the block title `.Procedure` is present, this conclusion is a certainty. In other cases, it may or may not be true, depending on whether the content of the module (or the content of a subsection) is logically a procedure, that is, it describes a specific action by the user.
 
 ### Subheading
 
-Sometimes a block title is present where a subheading should be used. Remember, however, that no subheadings of more than the second level (`==` prefix) are permitted. If the block title should logically become a third-level subheading (`===` prefix), you need to split the module into several modules.
+Sometimes a block title is present where a subheading should be used. Remember, however, that no subheadings of more than the second level (`==` prefix) are permitted. If the block title should logically become a third-level subheading (`===` prefix), you need to split the module into several modules. If the module is a procedure, no subheadings are permitted at all, so split the module.
 
 Do not add any `include` statements to modules. Instead, add the new modules to the assembly file in which the existing module is included. If you are an AI advising the breakup of the modules, provide a snippet that the user will paste into the assembly.
 
-When breaking a module into several modules, ensure that every module has the correct content type and complies with the template for this content type.
+When breaking a module into several modules, ensure that every module has the correct content type and complies with the template for this content type. For more information, see the `content-types.md` file.
 
 ### Proper block heading
 
-Sometimes a block heading is literally the heading to a block, typically a code block. In this case, reword the heading into normal text, as in the following example:
+Sometimes a block title is literally the heading to a block, typically a code block. In this case, reword the heading into normal text, as in the following example:
 
 Failure:
 
@@ -187,6 +239,14 @@ file1  file2
 
 ## ContentType
 
+**AI action plan**
+
+* Attempt to determine and suggest the content type based on the `content-types.md` file. If the meaning of the text leads to a content type of `procedure`, consider if it is possible to rewrite the content in the file to fit the procedure template.  
+
+* In all cases display an explanation. cretically including the link to t[AsciiDoc DITA Toolkit](https://github.com/rheslop/asciidoc-dita-toolkit/tree/main).
+
+**Detail**
+
 Every AsciiDoc assembly or module must have a content type, defined as the `_mod-docs-content-type` atttribute close to the start of the file, ideally on the first line. See the `content-types.md` file for details.
 
 When choosing a content type for the file, consider the information that is in t he file. If the content type is `procedure`, you must also edit the file to ensure it fits the template.
@@ -194,6 +254,14 @@ When choosing a content type for the file, consider the information that is in t
 For working out content types for your files, especially if you need to determine content type for many files at once, consider using the [AsciiDoc DITA Toolkit](https://github.com/rheslop/asciidoc-dita-toolkit/tree/main) .
 
 ## CrossReference
+
+**AI action plan**
+**Group**
+* Display an explanation, critically including the links to suggested utilities
+* Do not suggest fixes
+
+**Detail**
+
 
 It is usually not possible to work out the correct cross-reference by looking just at the content of one file. (The only exception is if the reference is to an ID defined in the file itself).
 
@@ -206,6 +274,15 @@ Do not remove cross-references (`xref:` or `<< ... >>` markup) because of this w
 If you are an AI handling the `CrossReference` warning, list all the instances of this warning in a file together, provide this explanation with the lints to the suggested solutions, and do not recommend any other action for this warning.
 
 ## LineBreak
+
+**AI action plan**
+* Locate the affected `+` character and analyse the context to see if the text is within a list or table
+* Within a list, ensure the `+` is on its own line and the paragraphs (or blocks) below and above it are immediately adjacent. Remove any blank lines or comments immediately below or above the `+`
+* Within a table, remove the `+`, replace it with a blank line, and add an `a` prefix operator to the cell
+* Outside a list or table, remove the `+` and replace it with a blank line
+* If complicated formatting is involved and an uncertainty remains, consider using an Asciidoc open block (bounded by `--` lines at the start and end) where possible
+
+**Detail**
 
 This warning appears when the AsciiDoc `+` special character is used the wrong way.
 
