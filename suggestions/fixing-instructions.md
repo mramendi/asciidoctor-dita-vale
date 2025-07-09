@@ -65,13 +65,11 @@ Failure:
 
 ```
 [IMPORTANT]
-.Feeding the Werewolves
+.Caring for floppy disks
 ====
-While werewolves are hardy community members, keep in mind the following dietary concerns:
-
-. They are allergic to cinnamon.
-. More than two glasses of orange juice in 24 hours makes them howl in harmony with alarms and sirens.
-. Celery makes them sad.
+* Put 5 inch floppies in sleeves at all times when they are not in use
+* Never expose floppies to direct sublight
+* Keep all floppies far away from magnets
 ====
 ```
 
@@ -80,11 +78,10 @@ Corrected:
 ```
 [IMPORTANT]
 ====
-While werewolves are hardy community members, when feeding the werewolves, keep in mind the following dietary concerns:
-
-. They are allergic to cinnamon.
-. More than two glasses of orange juice in 24 hours makes them howl in harmony with alarms and sirens.
-. Celery makes them sad.
+Take the following steps to care for floppy disks:
+* Put 5 inch floppies in sleeves at all times when they are not in use
+* Never expose floppies to direct sublight
+* Keep all floppies far away from magnets
 ====
 ```
 
@@ -258,16 +255,15 @@ In some of these cases the line break is unnecessary for the context. In these c
 Failure:
 
 ```
-.. Click the *Edit* icon beside the pod and select *Delete Pod*. +
-The select pod gets deleted and a new pod gets created.
+.. Click the *Edit* icon beside the pod and select *Create New Pod*. +
+A new pod gets created.
 ```
 
 Correction:
 
 ```
-.. Click the *Edit* icon beside the pod and select *Delete Pod*.
-The select pod gets deleted and a new pod gets created.
-
+.. Click the *Edit* icon beside the pod and select *Create New Pod*.
+A new pod gets created.
 ```
 (Note: while you can keep the regular line break for source readability purposes. there is no loine break in the output).
 
